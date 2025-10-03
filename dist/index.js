@@ -9,7 +9,7 @@ const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const admin_1 = require("./routes/admin");
-const proxy_1 = require("./routes/proxy");
+const chatting_1 = require("./routes/chatting");
 const profile_1 = require("./routes/profile");
 const groups_1 = require("./routes/groups");
 const healthCheck_1 = require("./services/healthCheck");
@@ -29,7 +29,7 @@ app.use(express_1.default.json());
 app.use('/v1', profile_1.profileRouter);
 // Registrar grupos antes del proxy para evitar que el catch-all del proxy lo capture
 app.use('/v1', groups_1.groupsRouter);
-app.use('/v1', proxy_1.proxyRouter);
+app.use('/v1', chatting_1.chattingRouter);
 app.use('/admin', admin_1.adminRouter);
 // Swagger/OpenAPI en /docs
 app.use('/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.swaggerSpec));

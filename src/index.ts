@@ -4,7 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
 import { adminRouter } from './routes/admin';
-import { proxyRouter } from './routes/proxy';
+import { chattingRouter } from './routes/chatting';
 import { profileRouter } from './routes/profile';
 import { groupsRouter } from './routes/groups';
 import { checkMasterApiHealth } from './services/healthCheck';
@@ -29,7 +29,7 @@ app.use(express.json());
   app.use('/v1', profileRouter);
   // Registrar grupos antes del proxy para evitar que el catch-all del proxy lo capture
   app.use('/v1', groupsRouter);
-  app.use('/v1', proxyRouter);
+  app.use('/v1', chattingRouter);
 app.use('/admin', adminRouter);
 
 // Swagger/OpenAPI en /docs
