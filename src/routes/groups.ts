@@ -637,4 +637,284 @@ router.post('/api/:session/groups/:id/admin/demote', async (req: Request, res: R
   }
 });
 
+/**
+ * @swagger
+ * /v1/api/{session}/groups/{id}/participants:
+ *   get:
+ *     summary: Listar participantes del grupo
+ *     description: Obtiene la lista de participantes del grupo indicado.
+ *     tags: [👥 Grupo]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Nombre de la sesión
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador del grupo
+ *     responses:
+ *       '200':
+ *         description: Lista de participantes obtenida correctamente
+ *       '401':
+ *         description: No autenticado
+ *       '403':
+ *         description: La sesión del path no coincide con la API key
+ *       '502':
+ *         description: Error al comunicarse con la API maestra
+ */
+router.get('/api/:session/groups/:id/participants', async (req: Request, res: Response) => {
+  try {
+    const requesterSessionId = req.sessionId;
+    if (!requesterSessionId) {
+      return res.status(401).json({ error: 'No autenticado' });
+    }
+
+    const dbSession = await prisma.session.findUnique({ where: { id: requesterSessionId } });
+    const requesterSessionName = dbSession?.sessionName || null;
+    if (!requesterSessionName || req.params.session !== requesterSessionName) {
+      return res.status(403).json({ error: 'La sesión enviada no coincide con la sesión de la API key' });
+    }
+
+    const targetUrl = `${config.MASTER_API_BASE_URL}/api/${encodeURIComponent(req.params.session)}/groups/${encodeURIComponent(req.params.id)}/participants`;
+    const headers = {
+      'Accept': 'application/json',
+      'X-Api-Key': config.MASTER_API_KEY,
+      'X-Forwarded-For': String(req.ip || ''),
+      'X-Original-Api-Key': String(req.apiKey || ''),
+    };
+
+    const response = await axios.get(targetUrl, {
+      headers,
+      timeout: config.MASTER_API_TIMEOUT_MS,
+      responseType: 'json',
+      validateStatus: () => true,
+    });
+
+    Object.entries(response.headers).forEach(([key, value]) => {
+      res.setHeader(key, value as any);
+    });
+    res.status(response.status).send(response.data);
+  } catch (error) {
+    console.error('Error en GET /v1/api/{session}/groups/{id}/participants:', error);
+    res.status(502).json({ error: 'Error al comunicarse con la API maestra' });
+  }
+});
+
+/**
+ * @swagger
+ * /v1/api/{session}/groups/{id}:
+ *   get:
+ *     summary: Obtener información del grupo
+ *     description: Devuelve los detalles del grupo indicado.
+ *     tags: [👥 Grupo]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Nombre de la sesión
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador del grupo
+ *     responses:
+ *       '200':
+ *         description: Información del grupo obtenida correctamente
+ *       '401':
+ *         description: No autenticado
+ *       '403':
+ *         description: La sesión del path no coincide con la API key
+ *       '502':
+ *         description: Error al comunicarse con la API maestra
+ */
+router.get('/api/:session/groups/:id', async (req: Request, res: Response) => {
+  try {
+    const requesterSessionId = req.sessionId;
+    if (!requesterSessionId) {
+      return res.status(401).json({ error: 'No autenticado' });
+    }
+
+    const dbSession = await prisma.session.findUnique({ where: { id: requesterSessionId } });
+    const requesterSessionName = dbSession?.sessionName || null;
+    if (!requesterSessionName || req.params.session !== requesterSessionName) {
+      return res.status(403).json({ error: 'La sesión enviada no coincide con la sesión de la API key' });
+    }
+
+    const targetUrl = `${config.MASTER_API_BASE_URL}/api/${encodeURIComponent(req.params.session)}/groups/${encodeURIComponent(req.params.id)}`;
+    const headers = {
+      'Accept': 'application/json',
+      'X-Api-Key': config.MASTER_API_KEY,
+      'X-Forwarded-For': String(req.ip || ''),
+      'X-Original-Api-Key': String(req.apiKey || ''),
+    };
+
+    const response = await axios.get(targetUrl, {
+      headers,
+      timeout: config.MASTER_API_TIMEOUT_MS,
+      responseType: 'json',
+      validateStatus: () => true,
+    });
+
+    Object.entries(response.headers).forEach(([key, value]) => {
+      res.setHeader(key, value as any);
+    });
+    res.status(response.status).send(response.data);
+  } catch (error) {
+    console.error('Error en GET /v1/api/{session}/groups/{id}:', error);
+    res.status(502).json({ error: 'Error al comunicarse con la API maestra' });
+  }
+});
+
+/**
+ * @swagger
+ * /v1/api/{session}/groups/{id}:
+ *   delete:
+ *     summary: Eliminar grupo
+ *     description: Elimina el grupo indicado.
+ *     tags: [👥 Grupo]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Nombre de la sesión
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador del grupo
+ *     responses:
+ *       '200':
+ *         description: Grupo eliminado correctamente
+ *       '401':
+ *         description: No autenticado
+ *       '403':
+ *         description: La sesión del path no coincide con la API key
+ *       '502':
+ *         description: Error al comunicarse con la API maestra
+ */
+router.delete('/api/:session/groups/:id', async (req: Request, res: Response) => {
+  try {
+    const requesterSessionId = req.sessionId;
+    if (!requesterSessionId) {
+      return res.status(401).json({ error: 'No autenticado' });
+    }
+
+    const dbSession = await prisma.session.findUnique({ where: { id: requesterSessionId } });
+    const requesterSessionName = dbSession?.sessionName || null;
+    if (!requesterSessionName || req.params.session !== requesterSessionName) {
+      return res.status(403).json({ error: 'La sesión enviada no coincide con la sesión de la API key' });
+    }
+
+    const targetUrl = `${config.MASTER_API_BASE_URL}/api/${encodeURIComponent(req.params.session)}/groups/${encodeURIComponent(req.params.id)}`;
+    const headers = {
+      'Accept': 'application/json',
+      'X-Api-Key': config.MASTER_API_KEY,
+      'X-Forwarded-For': String(req.ip || ''),
+      'X-Original-Api-Key': String(req.apiKey || ''),
+    };
+
+    const response = await axios.delete(targetUrl, {
+      headers,
+      timeout: config.MASTER_API_TIMEOUT_MS,
+      responseType: 'json',
+      validateStatus: () => true,
+    });
+
+    Object.entries(response.headers).forEach(([key, value]) => {
+      res.setHeader(key, value as any);
+    });
+    res.status(response.status).send(response.data);
+  } catch (error) {
+    console.error('Error en DELETE /v1/api/{session}/groups/{id}:', error);
+    res.status(502).json({ error: 'Error al comunicarse con la API maestra' });
+  }
+});
+
+/**
+ * @swagger
+ * /v1/api/{session}/groups/{id}/leave:
+ *   post:
+ *     summary: Abandonar grupo
+ *     description: El usuario asociado a la sesión abandona el grupo indicado.
+ *     tags: [👥 Grupo]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Nombre de la sesión
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador del grupo
+ *     responses:
+ *       '200':
+ *         description: Grupo abandonado correctamente
+ *       '401':
+ *         description: No autenticado
+ *       '403':
+ *         description: La sesión del path no coincide con la API key
+ *       '502':
+ *         description: Error al comunicarse con la API maestra
+ */
+router.post('/api/:session/groups/:id/leave', async (req: Request, res: Response) => {
+  try {
+    const requesterSessionId = req.sessionId;
+    if (!requesterSessionId) {
+      return res.status(401).json({ error: 'No autenticado' });
+    }
+
+    const dbSession = await prisma.session.findUnique({ where: { id: requesterSessionId } });
+    const requesterSessionName = dbSession?.sessionName || null;
+    if (!requesterSessionName || req.params.session !== requesterSessionName) {
+      return res.status(403).json({ error: 'La sesión enviada no coincide con la sesión de la API key' });
+    }
+
+    const targetUrl = `${config.MASTER_API_BASE_URL}/api/${encodeURIComponent(req.params.session)}/groups/${encodeURIComponent(req.params.id)}/leave`;
+    const headers = {
+      'Content-Type': 'application/json',
+      'X-Api-Key': config.MASTER_API_KEY,
+      'X-Forwarded-For': String(req.ip || ''),
+      'X-Original-Api-Key': String(req.apiKey || ''),
+    };
+
+    const response = await axios.post(targetUrl, req.body, {
+      headers,
+      timeout: config.MASTER_API_TIMEOUT_MS,
+      responseType: 'json',
+      validateStatus: () => true,
+    });
+
+    Object.entries(response.headers).forEach(([key, value]) => {
+      res.setHeader(key, value as any);
+    });
+    res.status(response.status).send(response.data);
+  } catch (error) {
+    console.error('Error en POST /v1/api/{session}/groups/{id}/leave:', error);
+    res.status(502).json({ error: 'Error al comunicarse con la API maestra' });
+  }
+});
+
 export { router as groupsRouter };
