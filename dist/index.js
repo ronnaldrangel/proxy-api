@@ -11,6 +11,7 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const admin_1 = require("./routes/admin");
 const proxy_1 = require("./routes/proxy");
 const profile_1 = require("./routes/profile");
+const groups_1 = require("./routes/groups");
 const healthCheck_1 = require("./services/healthCheck");
 const config_1 = require("./config");
 const swagger_1 = require("./config/swagger");
@@ -26,6 +27,8 @@ app.use(express_1.default.json());
 // Prefijo del proxy ahora en /v1
 // Registrar perfil antes del proxy para evitar que el catch-all del proxy lo capture
 app.use('/v1', profile_1.profileRouter);
+// Registrar grupos antes del proxy para evitar que el catch-all del proxy lo capture
+app.use('/v1', groups_1.groupsRouter);
 app.use('/v1', proxy_1.proxyRouter);
 app.use('/admin', admin_1.adminRouter);
 // Swagger/OpenAPI en /docs

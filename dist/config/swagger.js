@@ -93,8 +93,16 @@ const swaggerDefinition = {
         },
     },
 };
+// Generar especificación desde todas las rutas y ocultar cualquier path/tag de Admin
 const options = {
     swaggerDefinition,
-    apis: ['./src/routes/*.ts'], // Rutas donde buscar anotaciones de JSDoc
+    apis: ['./src/routes/*.ts', './src/index.ts'],
 };
-exports.swaggerSpec = (0, swagger_jsdoc_1.default)(options);
+const spec = (0, swagger_jsdoc_1.default)(options);
+// Ocultar paths de /admin/*
+spec.paths = Object.fromEntries(Object.entries(spec.paths || {}).filter(([path]) => !String(path).startsWith('/admin')));
+// Ocultar tag "Admin" si existe
+if (Array.isArray(spec.tags)) {
+    spec.tags = spec.tags.filter((t) => t && t.name !== 'Admin');
+}
+exports.swaggerSpec = spec;

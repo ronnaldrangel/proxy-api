@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import { adminRouter } from './routes/admin';
 import { proxyRouter } from './routes/proxy';
 import { profileRouter } from './routes/profile';
+import { groupsRouter } from './routes/groups';
 import { checkMasterApiHealth } from './services/healthCheck';
 import { config } from './config';
 import { swaggerSpec } from './config/swagger';
@@ -26,6 +27,8 @@ app.use(express.json());
 // Prefijo del proxy ahora en /v1
   // Registrar perfil antes del proxy para evitar que el catch-all del proxy lo capture
   app.use('/v1', profileRouter);
+  // Registrar grupos antes del proxy para evitar que el catch-all del proxy lo capture
+  app.use('/v1', groupsRouter);
   app.use('/v1', proxyRouter);
 app.use('/admin', adminRouter);
 
