@@ -50,6 +50,10 @@ app.use('/admin', adminRouter);
 
 // Swagger/OpenAPI en /docs
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// Exportar especificación OpenAPI en JSON
+app.get('/docs.json', (req, res) => {
+  res.status(200).json(swaggerSpec);
+});
 
 // Página HTML de documentación Admin desde router dedicado
 app.use('/admin-docs', adminDocsRouter);

@@ -48,6 +48,10 @@ app.use('/v1', key_1.keyRouter);
 app.use('/admin', admin_1.adminRouter);
 // Swagger/OpenAPI en /docs
 app.use('/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.swaggerSpec));
+// Exportar especificación OpenAPI en JSON
+app.get('/docs.json', (req, res) => {
+    res.status(200).json(swagger_1.swaggerSpec);
+});
 // Página HTML de documentación Admin desde router dedicado
 app.use('/admin-docs', adminDocs_1.adminDocsRouter);
 // Ruta raíz
