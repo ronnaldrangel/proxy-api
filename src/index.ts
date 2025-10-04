@@ -65,6 +65,15 @@ app.get('/healthz', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Manejo de 404 para rutas no encontradas en formato JSON
+app.use((req, res) => {
+  res.status(404).json({
+    message: `Cannot ${req.method} ${req.originalUrl}`,
+    error: 'Not Found',
+    statusCode: 404,
+  });
+});
+
 /**
  * @swagger
  * /healthz:
