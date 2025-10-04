@@ -17,6 +17,16 @@ const config_1 = require("./config");
 const swagger_1 = require("./config/swagger");
 // Cargar variables de entorno
 dotenv_1.default.config();
+// Códigos ANSI para colorear logs en consola
+const color = {
+    reset: '\x1b[0m',
+    bold: '\x1b[1m',
+    green: '\x1b[32m',
+    cyan: '\x1b[36m',
+    magenta: '\x1b[35m',
+    red: '\x1b[31m',
+    yellow: '\x1b[33m',
+};
 // Inicializar Express
 const app = (0, express_1.default)();
 // Middleware básicos
@@ -75,12 +85,12 @@ const PORT = config_1.config.PORT || 3000;
 (0, healthCheck_1.checkMasterApiHealth)()
     .then(() => {
     app.listen(PORT, () => {
-        console.log(`Servidor iniciado en puerto ${PORT}`);
-        console.log(`API Maestra verificada: ${config_1.config.MASTER_API_BASE_URL}`);
-        console.log(`Documentación OpenAPI disponible en: http://localhost:${PORT}/docs`);
+        console.log(`${color.green}${color.bold}Servidor iniciado en puerto ${PORT}${color.reset}`);
+        console.log(`${color.magenta}API Maestra verificada:${color.reset} ${config_1.config.MASTER_API_BASE_URL}`);
+        console.log(`${color.cyan}Documentación OpenAPI disponible en:${color.reset} http://localhost:${PORT}/docs`);
     });
 })
     .catch((error) => {
-    console.error('Error al verificar la API maestra:', error.message);
+    console.error(`${color.red}${color.bold}Error al verificar la API maestra:${color.reset} ${error.message}`);
     process.exit(1);
 });

@@ -3,7 +3,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
-    title: 'Wazend API 2',
+    title: 'Wazend API',
     version: '2.0.0',
     description: 'WhatsApp HTTP API that you can run in a click!',
     contact: {
