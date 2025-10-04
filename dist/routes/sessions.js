@@ -14,28 +14,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sessionsRouter = void 0;
 const express_1 = require("express");
+const axios_1 = __importDefault(require("axios"));
 const auth_1 = require("../middleware/auth");
 const rateLimit_1 = require("../middleware/rateLimit");
-const prisma_1 = require("../db/prisma");
-const axios_1 = __importDefault(require("axios"));
 const config_1 = require("../config");
+const prisma_1 = require("../db/prisma");
 const router = (0, express_1.Router)();
 exports.sessionsRouter = router;
-// Aplicar autenticación y rate limiting a todas las rutas de sesión
+// Autenticación por API key y rate limiting por sesión
 router.use(auth_1.apiKeyAuth);
 router.use(rateLimit_1.rateLimitBySession);
 /**
  * @swagger
  * tags:
  *   - name: 🖥️ Sesion
- *     description: Información y operaciones sobre la sesión autenticada
+ *     description: Operaciones e información de la sesión
  */
 /**
  * @swagger
  * /v1/api/sessions/{session}:
  *   get:
- *     summary: Obtener información de la sesión
- *     description: Devuelve información pública de la sesión indicada, validando que coincida con la API key.
+ *     summary: Obtener información general de la sesión
+ *     description: Devuelve información pública asociada a la sesión autenticada.
  *     tags: [🖥️ Sesion]
  *     security:
  *       - ApiKeyAuth: []
@@ -53,35 +53,16 @@ router.use(rateLimit_1.rateLimitBySession);
  *           application/json:
  *             schema:
  *               type: object
- *               properties:
- *                 id:
- *                   type: string
- *                 sessionName:
- *                   type: string
- *                 status:
- *                   type: string
- *                 createdAt:
- *                   type: string
- *                   format: date-time
- *                 updatedAt:
- *                   type: string
- *                   format: date-time
- *                 lastUsedAt:
- *                   type: string
- *                   format: date-time
- *                   nullable: true
- *                 revokedAt:
- *                   type: string
- *                   format: date-time
- *                   nullable: true
+ *             example:
+ *               id: '11111111111@c.us'
+ *               name: 'Mi sesión'
+ *               state: 'connected'
  *       '401':
  *         description: No autenticado
  *       '403':
  *         description: La sesión del path no coincide con la API key
- *       '404':
- *         description: Sesión no encontrada
- *       '500':
- *         description: Error del servidor
+ *       '502':
+ *         description: Error al comunicarse con la API maestra
  */
 router.get('/api/sessions/:session', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -89,16 +70,13 @@ router.get('/api/sessions/:session', (req, res) => __awaiter(void 0, void 0, voi
         if (!requesterSessionId) {
             return res.status(401).json({ error: 'No autenticado' });
         }
-        // Obtener la sesión asociada a la API key del solicitante
         const dbSession = yield prisma_1.prisma.session.findUnique({ where: { id: requesterSessionId } });
         const requesterSessionName = (dbSession === null || dbSession === void 0 ? void 0 : dbSession.sessionName) || null;
         if (!requesterSessionName || req.params.session !== requesterSessionName) {
             return res.status(403).json({ error: 'La sesión enviada no coincide con la sesión de la API key' });
         }
-        // Proxy: obtener información de la sesión desde la API maestra
         const targetUrl = `${config_1.config.MASTER_API_BASE_URL}/api/sessions/${encodeURIComponent(req.params.session)}`;
         const headers = {
-            'Accept': 'application/json',
             'X-Api-Key': config_1.config.MASTER_API_KEY,
             'X-Forwarded-For': String(req.ip || ''),
             'X-Original-Api-Key': String(req.apiKey || ''),
@@ -123,8 +101,8 @@ router.get('/api/sessions/:session', (req, res) => __awaiter(void 0, void 0, voi
  * @swagger
  * /v1/api/sessions/{session}/me:
  *   get:
- *     summary: Obtener identidad de la sesión
- *     description: Devuelve información del contexto "yo" de la sesión indicada, validando que coincida con la API key.
+ *     summary: Obtener contexto "me" de la sesión
+ *     description: Devuelve información pública relacionada al contexto "me" de la sesión autenticada.
  *     tags: [🖥️ Sesion]
  *     security:
  *       - ApiKeyAuth: []
@@ -138,6 +116,13 @@ router.get('/api/sessions/:session', (req, res) => __awaiter(void 0, void 0, voi
  *     responses:
  *       '200':
  *         description: Información de "me" obtenida correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *             example:
+ *               id: '11111111111@c.us'
+ *               name: 'Mi sesión'
  *       '401':
  *         description: No autenticado
  *       '403':
@@ -156,10 +141,8 @@ router.get('/api/sessions/:session/me', (req, res) => __awaiter(void 0, void 0, 
         if (!requesterSessionName || req.params.session !== requesterSessionName) {
             return res.status(403).json({ error: 'La sesión enviada no coincide con la sesión de la API key' });
         }
-        // Proxy a la API maestra
         const targetUrl = `${config_1.config.MASTER_API_BASE_URL}/api/sessions/${encodeURIComponent(req.params.session)}/me`;
         const headers = {
-            'Accept': 'application/json',
             'X-Api-Key': config_1.config.MASTER_API_KEY,
             'X-Forwarded-For': String(req.ip || ''),
             'X-Original-Api-Key': String(req.apiKey || ''),

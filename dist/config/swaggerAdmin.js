@@ -5,12 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.swaggerAdminSpec = void 0;
 const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
-const swaggerDefinition = {
+const swaggerAdminDefinition = {
     openapi: '3.0.0',
     info: {
         title: 'Wazend Admin API',
         version: '2.0.0',
-        description: 'Documentación sencilla de endpoints administrativos (/admin) para gestión de sesiones.',
+        description: 'Documentación de endpoints administrativos (/admin) de Wazend API',
         contact: {
             name: 'Soporte',
         },
@@ -18,11 +18,6 @@ const swaggerDefinition = {
     servers: [],
     components: {
         securitySchemes: {
-            ApiKeyAuth: {
-                type: 'apiKey',
-                in: 'header',
-                name: 'X-Api-Key',
-            },
             AdminApiKeyAuth: {
                 type: 'apiKey',
                 in: 'header',
@@ -33,29 +28,35 @@ const swaggerDefinition = {
             Session: {
                 type: 'object',
                 properties: {
-                    id: { type: 'string', format: 'uuid', description: 'ID de la sesión' },
+                    id: { type: 'string', format: 'uuid', description: 'Identificador único de la sesión' },
                     apiKey: { type: 'string', description: 'API key en texto plano' },
-                    sessionName: { type: 'string', nullable: true, description: 'Nombre de la sesión' },
-                    status: { type: 'string', enum: ['active', 'revoked'], description: 'Estado' },
-                    createdAt: { type: 'string', format: 'date-time' },
-                    updatedAt: { type: 'string', format: 'date-time' },
-                    lastUsedAt: { type: 'string', format: 'date-time', nullable: true },
-                    revokedAt: { type: 'string', format: 'date-time', nullable: true },
+                    sessionName: { type: 'string', description: 'Nombre descriptivo de la sesión', nullable: true },
+                    status: { type: 'string', enum: ['active', 'revoked'], description: 'Estado de la sesión' },
+                    createdAt: { type: 'string', format: 'date-time', description: 'Fecha de creación' },
+                    updatedAt: { type: 'string', format: 'date-time', description: 'Fecha de última actualización' },
+                    lastUsedAt: { type: 'string', format: 'date-time', description: 'Última vez que se usó la API key', nullable: true },
+                    revokedAt: { type: 'string', format: 'date-time', description: 'Fecha de revocación', nullable: true },
                 },
             },
             Error: {
                 type: 'object',
-                properties: { error: { type: 'string' } },
+                properties: {
+                    error: { type: 'string', description: 'Mensaje de error' },
+                },
             },
         },
     },
 };
-// Generar especificación sólo desde rutas admin
-const options = {
-    swaggerDefinition,
+const adminOptions = {
+    swaggerDefinition: swaggerAdminDefinition,
+    // Limitar el análisis exclusivamente al archivo de rutas admin para evitar cruces con /docs
     apis: ['./src/routes/admin.ts'],
 };
-const adminSpec = (0, swagger_jsdoc_1.default)(options);
-// Asegurar que sólo aparezcan paths bajo /admin y el tag Admin
+const adminSpec = (0, swagger_jsdoc_1.default)(adminOptions);
+// Mantener solo paths de /admin
 adminSpec.paths = Object.fromEntries(Object.entries(adminSpec.paths || {}).filter(([path]) => String(path).startsWith('/admin')));
+// Mantener solo la etiqueta Admin si existiera
+if (Array.isArray(adminSpec.tags)) {
+    adminSpec.tags = adminSpec.tags.filter((t) => t && t.name === 'Admin');
+}
 exports.swaggerAdminSpec = adminSpec;

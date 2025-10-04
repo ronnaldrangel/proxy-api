@@ -7,6 +7,7 @@ import { adminRouter } from './routes/admin';
 import { chattingRouter } from './routes/chatting';
 import { profileRouter } from './routes/profile';
 import { groupsRouter } from './routes/groups';
+import { sessionsRouter } from './routes/sessions';
 import { checkMasterApiHealth } from './services/healthCheck';
 import { config } from './config';
 import { swaggerSpec } from './config/swagger';
@@ -41,6 +42,7 @@ app.use(express.json());
   // Registrar grupos antes del proxy para evitar que el catch-all del proxy lo capture
   app.use('/v1', groupsRouter);
   app.use('/v1', chattingRouter);
+  app.use('/v1', sessionsRouter);
 app.use('/admin', adminRouter);
 
 // Swagger/OpenAPI en /docs
@@ -87,6 +89,15 @@ app.get('/healthz', (req, res) => {
 
 // Iniciar servidor
 const PORT = config.PORT || 3000;
+
+// Manejo de 404 para rutas no encontradas en formato JSON
+app.use((req, res) => {
+  res.status(404).json({
+    message: `Cannot ${req.method} ${req.originalUrl}`,
+    error: 'Not Found',
+    statusCode: 404,
+  });
+});
 
 // Verificar salud de la API maestra antes de iniciar
 checkMasterApiHealth()
