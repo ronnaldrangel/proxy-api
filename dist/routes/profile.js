@@ -27,7 +27,7 @@ router.use(rateLimit_1.rateLimitBySession);
 /**
  * @swagger
  * tags:
- *   - name: Perfil 🆔
+ *   - name: 🆔 Perfil
  *     description: Información del perfil de la sesión
  */
 /**
@@ -36,7 +36,7 @@ router.use(rateLimit_1.rateLimitBySession);
  *   get:
  *     summary: Obtener perfil de la sesión
  *     description: Devuelve la información de perfil asociada a la sesión.
- *     tags: [Perfil 🆔]
+ *     tags: [🆔 Perfil]
  *     security:
  *       - ApiKeyAuth: []
  *     parameters:
@@ -111,7 +111,7 @@ router.get('/api/:session/profile', (req, res) => __awaiter(void 0, void 0, void
  *   put:
  *     summary: Actualizar nombre del perfil de la sesión
  *     description: Actualiza el campo `name` del perfil asociado a la sesión.
- *     tags: [Perfil 🆔]
+ *     tags: [🆔 Perfil]
  *     security:
  *       - ApiKeyAuth: []
  *     parameters:
@@ -181,7 +181,7 @@ router.put('/api/:session/profile/name', (req, res) => __awaiter(void 0, void 0,
  *   put:
  *     summary: Actualizar estado del perfil de la sesión
  *     description: Actualiza el campo `status` del perfil asociado a la sesión.
- *     tags: [Perfil 🆔]
+ *     tags: [🆔 Perfil]
  *     security:
  *       - ApiKeyAuth: []
  *     parameters:

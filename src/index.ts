@@ -8,6 +8,7 @@ import { chattingRouter } from './routes/chatting';
 import { profileRouter } from './routes/profile';
 import { groupsRouter } from './routes/groups';
 import { sessionsRouter } from './routes/sessions';
+import { adminDocsRouter } from './routes/adminDocs';
 import { checkMasterApiHealth } from './services/healthCheck';
 import { config } from './config';
 import { swaggerSpec } from './config/swagger';
@@ -47,6 +48,9 @@ app.use('/admin', adminRouter);
 
 // Swagger/OpenAPI en /docs
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Página HTML de documentación Admin desde router dedicado
+app.use('/admin-docs', adminDocsRouter);
 
 // Ruta raíz
 app.get('/', (req, res) => {

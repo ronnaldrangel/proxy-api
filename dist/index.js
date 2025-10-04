@@ -13,6 +13,7 @@ const chatting_1 = require("./routes/chatting");
 const profile_1 = require("./routes/profile");
 const groups_1 = require("./routes/groups");
 const sessions_1 = require("./routes/sessions");
+const adminDocs_1 = require("./routes/adminDocs");
 const healthCheck_1 = require("./services/healthCheck");
 const config_1 = require("./config");
 const swagger_1 = require("./config/swagger");
@@ -45,6 +46,8 @@ app.use('/v1', sessions_1.sessionsRouter);
 app.use('/admin', admin_1.adminRouter);
 // Swagger/OpenAPI en /docs
 app.use('/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.swaggerSpec));
+// Página HTML de documentación Admin desde router dedicado
+app.use('/admin-docs', adminDocs_1.adminDocsRouter);
 // Ruta raíz
 app.get('/', (req, res) => {
     res.status(200).json({
