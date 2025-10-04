@@ -16,6 +16,7 @@ const sessions_1 = require("./routes/sessions");
 const healthCheck_1 = require("./services/healthCheck");
 const config_1 = require("./config");
 const swagger_1 = require("./config/swagger");
+const swaggerAdmin_1 = require("./config/swaggerAdmin");
 // Cargar variables de entorno
 dotenv_1.default.config();
 // Códigos ANSI para colorear logs en consola
@@ -46,6 +47,8 @@ app.use('/v1', chatting_1.chattingRouter);
 app.use('/admin', admin_1.adminRouter);
 // Swagger/OpenAPI en /docs
 app.use('/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.swaggerSpec));
+// Swagger Admin en /docs-admin
+app.use('/docs-admin', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerAdmin_1.swaggerAdminSpec));
 // Ruta raíz
 app.get('/', (req, res) => {
     res.status(200).json({
@@ -59,6 +62,14 @@ app.get('/', (req, res) => {
 // Ruta de salud
 app.get('/healthz', (req, res) => {
     res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+// Manejo de 404 para rutas no encontradas en formato JSON
+app.use((req, res) => {
+    res.status(404).json({
+        message: `Cannot ${req.method} ${req.originalUrl}`,
+        error: 'Not Found',
+        statusCode: 404,
+    });
 });
 /**
  * @swagger

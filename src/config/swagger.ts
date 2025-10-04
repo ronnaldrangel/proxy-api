@@ -19,11 +19,6 @@ const swaggerDefinition = {
         in: 'header',
         name: 'X-Api-Key',
       },
-      AdminApiKeyAuth: {
-        type: 'apiKey',
-        in: 'header',
-        name: 'X-Master-Key',
-      },
     },
     schemas: {
       Session: {
