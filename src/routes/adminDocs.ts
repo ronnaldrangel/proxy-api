@@ -86,10 +86,6 @@ const PAGE_HTML = `<!doctype html>
           </li>
         </ul>
       </div>
-      <div class="section">
-        <h2>Ejemplo rápido</h2>
-        <div class="box"><code>curl -H "X-Master-Key: &lt;key&gt;" http://localhost:3000/admin/sessions?page=1</code></div>
-      </div>
       <div class="footer">Para documentación pública visita <a href="/docs" style="color:#6E8EF7; text-decoration:none; font-weight:600;">/docs</a>.</div>
     </div>
   </div>
