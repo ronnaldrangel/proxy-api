@@ -12,6 +12,7 @@ const admin_1 = require("./routes/admin");
 const chatting_1 = require("./routes/chatting");
 const profile_1 = require("./routes/profile");
 const groups_1 = require("./routes/groups");
+const sessions_1 = require("./routes/sessions");
 const healthCheck_1 = require("./services/healthCheck");
 const config_1 = require("./config");
 const swagger_1 = require("./config/swagger");
@@ -39,6 +40,8 @@ app.use(express_1.default.json());
 app.use('/v1', profile_1.profileRouter);
 // Registrar grupos antes del proxy para evitar que el catch-all del proxy lo capture
 app.use('/v1', groups_1.groupsRouter);
+// Registrar sesiones antes del proxy para evitar que el catch-all del proxy lo capture
+app.use('/v1', sessions_1.sessionsRouter);
 app.use('/v1', chatting_1.chattingRouter);
 app.use('/admin', admin_1.adminRouter);
 // Swagger/OpenAPI en /docs

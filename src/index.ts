@@ -7,6 +7,7 @@ import { adminRouter } from './routes/admin';
 import { chattingRouter } from './routes/chatting';
 import { profileRouter } from './routes/profile';
 import { groupsRouter } from './routes/groups';
+import { sessionsRouter } from './routes/sessions';
 import { checkMasterApiHealth } from './services/healthCheck';
 import { config } from './config';
 import { swaggerSpec } from './config/swagger';
@@ -40,6 +41,8 @@ app.use(express.json());
   app.use('/v1', profileRouter);
   // Registrar grupos antes del proxy para evitar que el catch-all del proxy lo capture
   app.use('/v1', groupsRouter);
+  // Registrar sesiones antes del proxy para evitar que el catch-all del proxy lo capture
+  app.use('/v1', sessionsRouter);
   app.use('/v1', chattingRouter);
 app.use('/admin', adminRouter);
 
