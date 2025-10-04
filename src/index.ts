@@ -64,13 +64,13 @@ app.get('/', (req, res) => {
 });
 
 // Ruta de salud
-app.get('/healthz', (req, res) => {
+app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 /**
  * @swagger
- * /healthz:
+ * /health:
  *   get:
  *     summary: Verificar estado del servicio
  *     description: Devuelve el estado del servicio y timestamp

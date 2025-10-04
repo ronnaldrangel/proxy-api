@@ -251,7 +251,7 @@ router.put('/api/:session/profile/status', async (req: Request, res: Response) =
  *   put:
  *     summary: Actualizar foto de perfil de la sesión
  *     description: Actualiza la foto de perfil asociada a la sesión.
- *     tags: [Perfil 🆔]
+ *     tags: [🆔 Perfil]
  *     security:
  *       - ApiKeyAuth: []
  *     parameters:
@@ -336,7 +336,7 @@ router.put('/api/:session/profile/picture', async (req: Request, res: Response) 
  *   delete:
  *     summary: Eliminar foto de perfil de la sesión
  *     description: Elimina la foto de perfil asociada a la sesión.
- *     tags: [Perfil 🆔]
+ *     tags: [🆔 Perfil]
  *     security:
  *       - ApiKeyAuth: []
  *     parameters:
