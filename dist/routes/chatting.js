@@ -219,7 +219,6 @@ router.post('/api/sendText', (req, res) => __awaiter(void 0, void 0, void 0, fun
  *                 type: string
  *               file:
  *                 type: object
- *                 required: [mimetype, filename, url]
  *                 properties:
  *                   mimetype:
  *                     type: string
@@ -230,10 +229,6 @@ router.post('/api/sendText', (req, res) => __awaiter(void 0, void 0, void 0, fun
  *               reply_to:
  *                 type: string
  *                 nullable: true
- *               asNote:
- *                 type: boolean
- *               convert:
- *                 type: boolean
  *               caption:
  *                 type: string
  *               session:
@@ -412,36 +407,33 @@ router.post('/api/sendFile', (req, res) => __awaiter(void 0, void 0, void 0, fun
  *           schema:
  *             type: object
  *             required: [chatId, file, session]
- *             properties:
- *               chatId:
- *                 type: string
- *               file:
- *                 type: object
- *                 required: [mimetype, filename, url]
- *                 properties:
- *                   mimetype:
- *                     type: string
- *                   filename:
- *                     type: string
- *                   url:
- *                     type: string
- *               reply_to:
- *                 type: string
- *                 nullable: true
- *               caption:
- *                 type: string
- *               session:
- *                 type: string
+  *             properties:
+  *               chatId:
+  *                 type: string
+  *               file:
+  *                 type: object
+  *                 properties:
+  *                   mimetype:
+  *                     type: string
+  *                   filename:
+  *                     type: string
+  *                   url:
+  *                     type: string
+  *               reply_to:
+  *                 type: string
+  *                 nullable: true
+  *               caption:
+  *                 type: string
+  *               session:
+  *                 type: string
   *           example:
   *             chatId: "11111111111@c.us"
   *             file:
-  *               mimetype: "video/mp4"
-  *               filename: "video.mp4"
-  *               url: " `https://github.com/devlikeapro/waha/raw/core/examples/video.mp4` "
+  *               mimetype: "image/jpeg"
+  *               filename: "filename.jpg"
+  *               url: "https://github.com/devlikeapro/waha/raw/core/examples/waha.jpg"
   *             reply_to: null
-  *             asNote: false
-  *             convert: true
-  *             caption: "Just watch at this!"
+  *             caption: "string"
   *             session: "default"
  *     responses:
  *       '200':
