@@ -8,6 +8,7 @@ import { chattingRouter } from './routes/chatting';
 import { profileRouter } from './routes/profile';
 import { groupsRouter } from './routes/groups';
 import { sessionsRouter } from './routes/sessions';
+import { keyRouter } from './routes/key';
 import { adminDocsRouter } from './routes/adminDocs';
 import { checkMasterApiHealth } from './services/healthCheck';
 import { config } from './config';
@@ -44,6 +45,7 @@ app.use(express.json());
   app.use('/v1', groupsRouter);
   app.use('/v1', chattingRouter);
   app.use('/v1', sessionsRouter);
+  app.use('/v1', keyRouter);
 app.use('/admin', adminRouter);
 
 // Swagger/OpenAPI en /docs

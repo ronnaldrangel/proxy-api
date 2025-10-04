@@ -13,6 +13,7 @@ const chatting_1 = require("./routes/chatting");
 const profile_1 = require("./routes/profile");
 const groups_1 = require("./routes/groups");
 const sessions_1 = require("./routes/sessions");
+const key_1 = require("./routes/key");
 const adminDocs_1 = require("./routes/adminDocs");
 const healthCheck_1 = require("./services/healthCheck");
 const config_1 = require("./config");
@@ -43,6 +44,7 @@ app.use('/v1', profile_1.profileRouter);
 app.use('/v1', groups_1.groupsRouter);
 app.use('/v1', chatting_1.chattingRouter);
 app.use('/v1', sessions_1.sessionsRouter);
+app.use('/v1', key_1.keyRouter);
 app.use('/admin', admin_1.adminRouter);
 // Swagger/OpenAPI en /docs
 app.use('/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.swaggerSpec));
