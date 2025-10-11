@@ -282,7 +282,7 @@ router.put('/api/:session/profile/status', (req, res) => __awaiter(void 0, void 
  *             file:
  *               mimetype: 'image/jpeg'
  *               filename: 'filename.jpg'
- *               url: 'https://github.com/devlikeapro/waha/raw/core/examples/waha.jpg'
+ *               url: 'https://wazend.net/wp-content/uploads/2025/09/Logo-App.png'
  *     responses:
  *       '200':
  *         description: Foto de perfil actualizada correctamente

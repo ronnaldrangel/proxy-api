@@ -224,15 +224,15 @@ router.post('/api/sendText', async (req: Request, res: Response) => {
  *                 type: string
  *               session:
  *                 type: string
-  *           example:
-  *             chatId: "11111111111@c.us"
-  *             file:
-  *               mimetype: "image/jpeg"
-  *               filename: "filename.jpg"
-  *               url: "https://wazend.net/wp-content/uploads/2025/09/Logo-App.png"
+ *           example:
+ *             chatId: "11111111111@c.us"
+ *             file:
+ *               mimetype: "image/jpeg"
+ *               filename: "filename.jpg"
+ *               url: "https://wazend.net/wp-content/uploads/2025/09/Logo-App.png"
   *             reply_to: null
-  *             caption: "string"
-  *             session: "default"
+ *             caption: "string"
+ *             session: "default"
  *     responses:
  *       '200':
  *         description: OK
@@ -420,6 +420,12 @@ router.post('/api/sendFile', async (req: Request, res: Response) => {
   *                 nullable: true
   *               caption:
   *                 type: string
+  *               asNote:
+  *                 type: boolean
+  *                 description: "Enviar como nota de video (booleano)"
+  *               convert:
+  *                 type: boolean
+  *                 description: "Convertir el video antes de enviarlo (booleano)"
   *               session:
   *                 type: string
   *           example:
@@ -430,6 +436,8 @@ router.post('/api/sendFile', async (req: Request, res: Response) => {
   *               url: "https://wazend.net/wp-content/uploads/2025/09/Logo-App.png"
   *             reply_to: null
   *             caption: "string"
+  *             asNote: false
+  *             convert: true
   *             session: "default"
  *     responses:
  *       '200':

@@ -233,15 +233,15 @@ router.post('/api/sendText', (req, res) => __awaiter(void 0, void 0, void 0, fun
  *                 type: string
  *               session:
  *                 type: string
-  *           example:
-  *             chatId: "11111111111@c.us"
-  *             file:
-  *               mimetype: "image/jpeg"
-  *               filename: "filename.jpg"
-  *               url: "https://github.com/devlikeapro/waha/raw/core/examples/waha.jpg"
+ *           example:
+ *             chatId: "11111111111@c.us"
+ *             file:
+ *               mimetype: "image/jpeg"
+ *               filename: "filename.jpg"
+ *               url: "https://wazend.net/wp-content/uploads/2025/09/Logo-App.png"
   *             reply_to: null
-  *             caption: "string"
-  *             session: "default"
+ *             caption: "string"
+ *             session: "default"
  *     responses:
  *       '200':
  *         description: OK
@@ -336,7 +336,7 @@ router.post('/api/sendImage', (req, res) => __awaiter(void 0, void 0, void 0, fu
   *             file:
   *               mimetype: "image/jpeg"
   *               filename: "filename.jpg"
-  *               url: "https://github.com/devlikeapro/waha/raw/core/examples/waha.jpg"
+  *               url: "https://wazend.net/wp-content/uploads/2025/09/Logo-App.png"
   *             reply_to: null
   *             caption: "string"
   *             session: "default"
@@ -424,6 +424,12 @@ router.post('/api/sendFile', (req, res) => __awaiter(void 0, void 0, void 0, fun
   *                 nullable: true
   *               caption:
   *                 type: string
+  *               asNote:
+  *                 type: boolean
+  *                 description: "Enviar como nota de video (booleano)"
+  *               convert:
+  *                 type: boolean
+  *                 description: "Convertir el video antes de enviarlo (booleano)"
   *               session:
   *                 type: string
   *           example:
@@ -431,9 +437,11 @@ router.post('/api/sendFile', (req, res) => __awaiter(void 0, void 0, void 0, fun
   *             file:
   *               mimetype: "image/jpeg"
   *               filename: "filename.jpg"
-  *               url: "https://github.com/devlikeapro/waha/raw/core/examples/waha.jpg"
+  *               url: "https://wazend.net/wp-content/uploads/2025/09/Logo-App.png"
   *             reply_to: null
   *             caption: "string"
+  *             asNote: false
+  *             convert: true
   *             session: "default"
  *     responses:
  *       '200':
@@ -528,7 +536,7 @@ router.post('/api/sendVideo', (req, res) => __awaiter(void 0, void 0, void 0, fu
   *             chatId: "11111111111@c.us"
   *             file:
   *               mimetype: "audio/ogg; codecs=opus"
-  *               url: "https://github.com/devlikeapro/waha/raw/core/examples/dev.likeapro.opus"
+  *               url: "https://wazend.net/wp-content/uploads/2025/10/dcbe54294f83.mp3"
   *             reply_to: null
   *             convert: true
   *             session: "default"
