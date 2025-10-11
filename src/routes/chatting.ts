@@ -229,7 +229,7 @@ router.post('/api/sendText', async (req: Request, res: Response) => {
   *             file:
   *               mimetype: "image/jpeg"
   *               filename: "filename.jpg"
-  *               url: "https://github.com/devlikeapro/waha/raw/core/examples/waha.jpg"
+  *               url: "https://wazend.net/wp-content/uploads/2025/09/Logo-App.png"
   *             reply_to: null
   *             caption: "string"
   *             session: "default"
@@ -330,7 +330,7 @@ router.post('/api/sendImage', async (req: Request, res: Response) => {
   *             file:
   *               mimetype: "image/jpeg"
   *               filename: "filename.jpg"
-  *               url: "https://github.com/devlikeapro/waha/raw/core/examples/waha.jpg"
+  *               url: "https://wazend.net/wp-content/uploads/2025/09/Logo-App.png"
   *             reply_to: null
   *             caption: "string"
   *             session: "default"
@@ -427,7 +427,7 @@ router.post('/api/sendFile', async (req: Request, res: Response) => {
   *             file:
   *               mimetype: "image/jpeg"
   *               filename: "filename.jpg"
-  *               url: "https://github.com/devlikeapro/waha/raw/core/examples/waha.jpg"
+  *               url: "https://wazend.net/wp-content/uploads/2025/09/Logo-App.png"
   *             reply_to: null
   *             caption: "string"
   *             session: "default"
@@ -526,7 +526,7 @@ router.post('/api/sendVideo', async (req: Request, res: Response) => {
   *             chatId: "11111111111@c.us"
   *             file:
   *               mimetype: "audio/ogg; codecs=opus"
-  *               url: "https://github.com/devlikeapro/waha/raw/core/examples/dev.likeapro.opus"
+  *               url: "https://wazend.net/wp-content/uploads/2025/10/dcbe54294f83.mp3"
   *             reply_to: null
   *             convert: true
   *             session: "default"
