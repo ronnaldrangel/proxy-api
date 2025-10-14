@@ -117,6 +117,15 @@ checkMasterApiHealth()
       console.log(`${color.magenta}API Maestra verificada:${color.reset} ${config.MASTER_API_BASE_URL}`);
       console.log(`${color.cyan}Documentación OpenAPI disponible en:${color.reset} http://localhost:${PORT}/docs`);
     });
+
+    // Iniciar heartbeat periódico para mantener caliente la API maestra
+    // y reducir fallos por primera petición tras inactividad.
+    try {
+      const { startMasterApiHeartbeat } = require('./services/healthCheck');
+      startMasterApiHeartbeat();
+    } catch (err) {
+      console.error('No se pudo iniciar el heartbeat de API maestra:', err);
+    }
   })
   .catch((error) => {
     console.error(`${color.red}${color.bold}Error al verificar la API maestra:${color.reset} ${error.message}`);

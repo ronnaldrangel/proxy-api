@@ -10,6 +10,7 @@ export const config = {
   MASTER_API_BASE_URL: process.env.MASTER_API_BASE_URL || 'https://edge.wazend.net',
   MASTER_API_KEY: process.env.MASTER_API_KEY || 'UkVKATZZMZqZgtxMscKhfhbxORHDH41K',
   MASTER_API_TIMEOUT_MS: parseInt(process.env.MASTER_API_TIMEOUT_MS || '30000', 10),
+  HEARTBEAT_INTERVAL_MS: parseInt(process.env.HEARTBEAT_INTERVAL_MS || '240000', 10),
   RATE_LIMIT_WINDOW_SEC: parseInt(process.env.RATE_LIMIT_WINDOW_SEC || '60', 10),
   RATE_LIMIT_MAX_REQUESTS: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100', 10),
 };

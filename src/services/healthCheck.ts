@@ -25,3 +25,23 @@ export async function checkMasterApiHealth(): Promise<boolean> {
     throw new Error('No se pudo verificar la salud de la API maestra');
   }
 }
+
+// Inicia un heartbeat periódico para mantener “caliente” la API maestra y detectar caídas.
+export function startMasterApiHeartbeat(): void {
+  const intervalMs = Math.max(60000, Number(config.HEARTBEAT_INTERVAL_MS || 240000));
+
+  setInterval(async () => {
+    try {
+      await axios.get(`${config.MASTER_API_BASE_URL}/health`, {
+        headers: {
+          'X-Api-Key': config.MASTER_API_KEY,
+        },
+        timeout: 5000,
+      });
+      // No hacer log en éxito para evitar ruido; solo registramos errores.
+    } catch (error: any) {
+      const msg = (error && error.message) ? error.message : String(error);
+      console.error('Heartbeat: fallo al consultar /health de API maestra:', msg);
+    }
+  }, intervalMs);
+}
